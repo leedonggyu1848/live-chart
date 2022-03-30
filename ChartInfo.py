@@ -1,4 +1,5 @@
 from helper import *
+import numpy as np
 
 class ChartInfo:
   def __init__(self, graphInfo):
@@ -10,7 +11,6 @@ class ChartInfo:
     self.__layt = G.layout('kk', dim=3)
 
   def get_node_labels(self):
-    format = 'node'
     return [f'node: {ver} value: {safe_list_get(self.__graphInfo.get_node_value(), ver)}'
             for ver in range(self.__graphInfo.get_vertices())]
   
@@ -68,10 +68,13 @@ class ChartInfo:
       xd.append(layt[e[1]][0])
       yd.append(layt[e[1]][1])
       zd.append(layt[e[1]][2])
-      
-      ud.append(layt[e[1]][0] - layt[e[0]][0])
-      vd.append(layt[e[1]][1] - layt[e[0]][1])
-      wd.append(layt[e[1]][2] - layt[e[0]][2])
+      d = np.array([layt[e[1]][0] - layt[e[0]][0], 
+                    layt[e[1]][1] - layt[e[0]][1],
+                    layt[e[1]][2] - layt[e[0]][2]])
+      d = d / np.linalg.norm(d)
+      ud.append(d[0])
+      vd.append(d[1])
+      wd.append(d[2])
 
     return {
         'x':xd, 'y':yd, 'z':zd,

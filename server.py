@@ -6,31 +6,26 @@ from GraphInfo import GraphInfo
 from ChartInfo import ChartInfo
 
 # 정보 받는 함수
+# 7x7
 def get_graph_info():
-  
-  adjList = [ [1, 3, 5, 7],              # 0
-              [0],                       # 1
-              [],                        # 2
-              [5, 7]                     # 3
-            ]
+  N=7
+  adjList = [ [random.randint(0, N) 
+              for _ in range(random.randint(0, N))] 
+            for _ in range(random.randint(0, N))]
 
-  weight = [  [15.1, random.random(), 1.0002, -33],    # 0
-              [-32.7],                    # 1
-              [],                         # 2
-              [-1, 0]                     # 3
-            ]
+  weight = [  [random.randint(-100, 100) 
+              for _ in lst] 
+            for lst in adjList]
 
-  nodeValue = [ -0.1,                         # 0
-                14,                           # 1
-                10,                           # 2
-                0,                            # 3
-              ]
+  nodeValue = [random.randint(0, 100) 
+              for _ in range(random.randint(0, N))]
 
   graphInfo = {
       'adjList' : adjList,
       'weight' : weight,
       'nodeValue' : nodeValue,
   }
+  print(graphInfo)
   return graphInfo
 
 BLACK = 'rgb(0,0,0)'
@@ -56,7 +51,7 @@ def get_data():
                       hoverinfo='none', **chartInfo.get_texts())
 
   d_trace=go.Cone(anchor='tip', sizemode="absolute", 
-                  hoverinfo='none', sizeref=0.1, showscale=False, 
+                  hoverinfo='none', sizeref=0.05, showscale=False, 
                   colorscale=[[0, BLACK], [1,BLACK]], 
                   **chartInfo.get_cones())
                   
@@ -81,11 +76,10 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='graph',
         figure=go.Figure(data=get_data(), layout=get_layout()),
-        animate=True
     ),
     dcc.Interval(
       id = 'graph-update',
-      interval=1000,
+      interval=2000,
       n_intervals=0
     ),
 ])
