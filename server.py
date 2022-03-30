@@ -91,7 +91,7 @@ app.layout = html.Div(children=[
 def update(n):
   data = get_data()
   layout = get_layout()
-  return go.Figure(data=data, layout=layout)
+  return {'data':data, 'layout':layout}
 
 if __name__ == '__main__':
     app.run_server()
