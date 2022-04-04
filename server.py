@@ -1,32 +1,11 @@
 from dash import Dash, html, dcc, Input, Output
 import plotly.graph_objects as go
-import random
+from random_graph import random_graph
 
 from GraphInfo import GraphInfo
 from ChartInfo import ChartInfo
 
-# 정보 받는 함수
-# 7x7
-def get_graph_info():
-  N=7
-  adjList = [ [random.randint(0, N) 
-              for _ in range(random.randint(0, N))] 
-            for _ in range(random.randint(0, N))]
 
-  weight = [  [random.randint(-100, 100) 
-              for _ in lst] 
-            for lst in adjList]
-
-  nodeValue = [random.randint(0, 100) 
-              for _ in range(random.randint(0, N))]
-
-  graphInfo = {
-      'adjList' : adjList,
-      'weight' : weight,
-      'nodeValue' : nodeValue,
-  }
-  print(graphInfo)
-  return graphInfo
 
 BLACK = 'rgb(0,0,0)'
 GRAY = 'rgb(50,50,50)'
@@ -35,7 +14,7 @@ AXIS=dict(showbackground=False, showline=False,
           title='')
 
 def get_data():
-  graphInfo = get_graph_info()
+  graphInfo = random_graph()
   chartInfo = ChartInfo(GraphInfo(**graphInfo))
   e_trace=go.Scatter3d(mode='lines',
                       line=dict(color=BLACK, width=1),
@@ -84,14 +63,14 @@ app.layout = html.Div(children=[
     ),
 ])
 
-@app.callback(
-  Output('graph', 'figure'),
-  [Input('graph-update', 'n_intervals')]
-)
-def update(n):
-  data = get_data()
-  layout = get_layout()
-  return {'data':data, 'layout':layout}
+# @app.callback(
+#   Output('graph', 'figure'),
+#   [Input('graph-update', 'n_intervals')]
+# )
+# def update(n):
+#   data = get_data()
+#   layout = get_layout()
+#   return {'data':data, 'layout':layout}
 
 if __name__ == '__main__':
     app.run_server()
