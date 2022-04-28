@@ -25,7 +25,7 @@ def random_nodeValue(node, min=0, max=100):
   return [random.randint(min, max)
     for _ in range(node)]
 
-def random_graph(node=100, edge=300):
+def random_graph(node, edge):
 
   dist = distribute(node,edge)
   adjList = random_adjList(dist, node)

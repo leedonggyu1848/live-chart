@@ -5,7 +5,12 @@ from random_graph import random_graph
 from GraphInfo import GraphInfo
 from ChartInfo import ChartInfo
 
+import configparser
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+N_NODE = int(config['GRAPH']['node'])
+N_EDGE = int(config['GRAPH']['edge'])
 
 BLACK = 'rgb(0,0,0)'
 GRAY = 'rgb(50,50,50)'
@@ -14,7 +19,7 @@ AXIS=dict(showbackground=False, showline=False,
           title='')
 
 def get_data():
-  graphInfo = random_graph()
+  graphInfo = random_graph(N_NODE, N_EDGE)
   chartInfo = ChartInfo(GraphInfo(**graphInfo))
   e_trace=go.Scatter3d(mode='lines',
                       line=dict(color=BLACK, width=1),
